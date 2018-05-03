@@ -53,6 +53,26 @@ class App extends Component {
     });
   }
 
+  handleNameInput = e =>
+    this.setState({
+      pendingGuest: e.target.value
+    });
+
+  handleNewGuest = e => {
+    e.preventDefault();
+    this.setState({
+      guests: [
+        {
+          name: this.state.pendingGuest,
+          isConfirmed: false,
+          isEditing: false
+        },
+        ...this.state.guests
+      ],
+      pendingGuest: ''
+    });
+  }
+
   toggleConfirmationAt = index => 
     this.toggleGuestPropertyAt('isConfirmed', index);
 
@@ -75,9 +95,18 @@ class App extends Component {
         <header>
           <h1>RSVP</h1>
           <p>Who will be there?</p>
-          <form>
-              <input type="text" value="Safia" placeholder="Invite Someone" />
-              <button type="submit" name="submit" value="submit">Submit</button>
+          <form onSubmit={this.handleNewGuest}>
+              <input 
+                type="text" 
+                placeholder="Invite Someone"
+                onChange={this.handleNameInput}
+                value={this.state.pendingGuest} />
+              <button 
+                type="submit" 
+                name="submit" 
+                value="submit">
+                Submit
+              </button>
           </form>
         </header>
         <div className="main">
